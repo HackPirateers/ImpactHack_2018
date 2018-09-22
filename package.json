@@ -19,6 +19,8 @@
     "react-motion": "0.5.2",
     "react-scripts": "^1.1.5",
     "react-simple-maps": "0.11.1",
+    "reactjs-popup": "^1.2.0",
+    "recharts": "^1.2.0",
     "topojson-client": "^3.0.0"
   },
   "devDependencies": {},
