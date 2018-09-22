@@ -30,7 +30,6 @@ class ControlledPopup extends React.Component {
         <button className="button" onClick={this.openModal}>
           Controlled Popup
         </button>
-        {console.log(this.props.dat)}
         <Popup
           open={this.state.open}
           closeOnDocumentClick

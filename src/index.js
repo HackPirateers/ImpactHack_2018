@@ -103,10 +103,8 @@ class App extends Component {
                            refCount: this.state.refCount[x]});
         }
         this.setState({graph: graph1});
-        console.log(this.state.graph);
-
     }).catch(error => {
-      alert(error);
+
     });
     return test;
   };
