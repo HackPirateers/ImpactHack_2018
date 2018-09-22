@@ -75,7 +75,7 @@ class App extends Component {
       x = "Free";
     }
     // console.log(this.state.api_data);
-    return this.state.countrylist + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x;
+    return this.state.countrylist[0] + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x + ".";
   }
 
   changeData = () => {
