@@ -20,7 +20,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      country: "",
+      countrylist: [],
       open: false,
       graph: [],
       years: [],
@@ -31,7 +31,8 @@ class App extends Component {
       turn: 1,
       popData: false,
       api_data: [],
-      text_stub: ""
+      text_stub: "",
+      abr: ""
     };
   }
   changeCenter = center => () => {
@@ -51,11 +52,11 @@ class App extends Component {
 
   };
 
-  updateCountry = (country1) =>{
+  updateCountry = (country1,country2) =>{
     this.setState({
-      country: country1
+      countrylist: [country1, country2]
     }, function(){
-      console.log(this.state.country);
+      console.log(this.state.countrylist);
       // console.log(this.post);
       this.post();
     });
@@ -73,7 +74,7 @@ class App extends Component {
       x = "Free";
     }
     // console.log(this.state.api_data);
-    return this.state.country + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x;
+    return this.state.countrylist + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x;
   }
 
   changeData = () => {
@@ -87,8 +88,9 @@ class App extends Component {
 
 
   async post(){
-    const test = await axios.put("https://b337fc5a.ngrok.io/",{"list" : [this.state.country]}).then(async(response) =>{
+    const test = await axios.put("http://36e864ed.ngrok.io/",{"list" : [this.state.countrylist]}).then(async(response) =>{
       // console.log(response["data"]["output"]);
+      //this.setState({abr: re})
       this.setState({api_data: response["data"]["output"]});
       this.setState({years: response["data"]["output"][0]});
       this.setState({refCount: response["data"]["output"][1]});
@@ -150,7 +152,7 @@ class App extends Component {
         <ControlledPopup
           dat ={this.state.graph}
           blurb = {this.state.text_stub}
-          country = {this.state.country}/>
+          country = {this.state.countrylist[0]}/>
       </div>
     );
   }
