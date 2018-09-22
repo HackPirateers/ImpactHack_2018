@@ -15,26 +15,12 @@ import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label} fr
 class ControlledPopup extends React.Component {
   constructor() {
     super();
-    this.state = { open: false };
   }
-  openModal = () => {
-    this.setState({ open: true });
-  };
-  closeModal = () => {
-    this.setState({ open: false });
-  };
 
   render() {
     return (
       <div>
-        <button className="button" onClick={this.openModal}>
-          Controlled Popup
-        </button>
-        <Popup
-          open={this.state.open}
-          closeOnDocumentClick
-          onClose={this.closeModal}
-        >
+
           <div>
             {this.props.country}
           </div>
@@ -42,7 +28,7 @@ class ControlledPopup extends React.Component {
             <a className="close" onClick={this.closeModal}>
               &times;
             </a>
-            <LineChart width={700} height={350} data={this.props.dat}
+            <LineChart width={750} height={350} data={this.props.dat}
               margin={{top: 5, right: 30, left: 20, bottom: 5}}>
          <XAxis dataKey="years"/>
          <YAxis/>
@@ -55,7 +41,6 @@ class ControlledPopup extends React.Component {
           <div>
             {this.props.blurb}
           </div>
-        </Popup>
       </div>
     );
   }

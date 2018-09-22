@@ -25,7 +25,7 @@ class App extends Component {
       graph: [],
       years: [],
       refCount: [],
-      showMap: false,
+      open: false,
       center: [0, 0],
       size: 5,
       turn: 1,
@@ -59,6 +59,7 @@ class App extends Component {
       console.log(this.state.countrylist);
       // console.log(this.post);
       this.post();
+
     });
   }
 
@@ -86,14 +87,22 @@ class App extends Component {
     }
   }
 
+  openModal = () => {
+    this.setState({ open: true });
+  };
+
+  closeModal = () => {
+  this.setState({ open: false });
+  };
 
   async post(){
-    const test = await axios.put("http://36e864ed.ngrok.io/",{"list" : [this.state.countrylist]}).then(async(response) =>{
+    const test = await axios.put("http://b7c0c87e.ngrok.io/",{"list" : [this.state.countrylist]}).then(async(response) =>{
       // console.log(response["data"]["output"]);
       //this.setState({abr: re})
       this.setState({api_data: response["data"]["output"]});
       this.setState({years: response["data"]["output"][0]});
       this.setState({refCount: response["data"]["output"][1]});
+      //this.setState({showMap : true});
       this.setState({text_stub : this.makeText()});
 
       // console.log(this.state.text_stub);
@@ -102,9 +111,12 @@ class App extends Component {
             graph1.push({  years: this.state.years[x],
                            refCount: this.state.refCount[x]});
         }
-        this.setState({graph: graph1});
-    }).catch(error => {
+      this.setState({graph: graph1});
+      this.setState({showMap: true});
+      this.setState({ open: true });
 
+    }).catch(error => {
+alert(error);
     });
     return test;
   };
@@ -147,10 +159,20 @@ class App extends Component {
           popData={this.state.popData}
           updateCountry = {this.updateCountry}
         />
-        <ControlledPopup
-          dat ={this.state.graph}
-          blurb = {this.state.text_stub}
-          country = {this.state.countrylist[0]}/>
+
+        <Popup
+          open={this.state.open}
+          closeOnDocumentClick
+          onClose={this.closeModal}
+        >
+          <ControlledPopup
+            dat ={this.state.graph}
+            blurb = {this.state.text_stub}
+            country = {this.state.countrylist[0]}/>
+        </Popup>
+
+
+
       </div>
     );
   }
