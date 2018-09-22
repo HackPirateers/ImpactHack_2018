@@ -1,4 +1,8 @@
 import React from "react";
+//We used react-simple-maps to display our globe. Link:(https://www.react-simple-maps.io/)
+//In order to create the globe we need a Composable Map,
+//Zoomable Globe, Geographies, Geography, Markers and Marker
+
 import {
   ComposableMap,
   ZoomableGlobe,
@@ -7,17 +11,26 @@ import {
   Markers,
   Marker
 } from "react-simple-maps";
+
+//This will allow the spinning motion of the globe.
 import { Motion, spring } from "react-motion";
+
+//This allows there to be color for each different country (Visual)
 import chroma from "chroma-js";
+
+//This contains the Lat/Long data along with Country names and abreveations.
 import geographyObject from "./50m.json";
 
+//Reshapes the Mapp size.
 const mapStyles = {
   width: "40%",
   height: "auto"
 };
 
+//This changes the color scale for each country.
 const colorScale = chroma.scale(["#FF6E40", "FFD740", "#00B8D4"]).mode("lch").colors(24);
 
+//This contains the names of the subregions withing the map.
 const subregions = [
   "Southern Asia",
   "Polynesia",
@@ -45,8 +58,11 @@ const subregions = [
   "Western Asia"
 ];
 
+//This is the Map const value which contains the main JSX code for the globe.
 const Map = ({ center, csize, markers, popData, updateCountry }) => (
   <div>
+    {/* //This controls the spinning motion of the globe. */}
+
     <Motion
       defaultStyle={{
         x: center[0],
@@ -57,6 +73,8 @@ const Map = ({ center, csize, markers, popData, updateCountry }) => (
         y: spring(center[1])
       }}
     >
+
+    {/* //This creation the physical globe. */}
       {({ x, y }) => (
         <ComposableMap
           width={500}
@@ -79,6 +97,7 @@ const Map = ({ center, csize, markers, popData, updateCountry }) => (
             >
               {(geos, proj) =>
                 geos.map((geo, i) => (
+                  //updateCountry() send the selected country name and country abreveation
                   <Geography
                     key={geo.id + i}
                     geography={geo}
