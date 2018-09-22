@@ -1,7 +1,7 @@
 import React from "react";
 // import Warper from "./Warper";
 import Popup from "reactjs-popup";
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from "recharts";
+import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label} from "recharts";
 
 // const data = [
 //       {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
@@ -12,12 +12,17 @@ import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from "rec
 //       {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
 //       {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
 // ];
-openModal = () => {
-  this.setState({ open: true });
-};
-closeModal = () => {
-  this.setState({ open: false });
-};
+class ControlledPopup extends React.Component {
+  constructor() {
+    super();
+    this.state = { open: false };
+  }
+  openModal = () => {
+    this.setState({ open: true });
+  };
+  closeModal = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     return (
@@ -25,6 +30,7 @@ closeModal = () => {
         <button className="button" onClick={this.openModal}>
           Controlled Popup
         </button>
+        {console.log(this.props.dat)}
         <Popup
           open={this.state.open}
           closeOnDocumentClick
@@ -34,15 +40,15 @@ closeModal = () => {
             <a className="close" onClick={this.closeModal}>
               &times;
             </a>
-            <LineChart width={600} height={300} data={this.props.data}
-                margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-           <XAxis dataKey="years"/>
-           <YAxis/>
-           <CartesianGrid strokeDasharray="3 3"/>
-           <Tooltip/>
-           <Legend />
-           <Line type="monotone" dataKey="refCount" stroke="#82ca9d" />
-          </LineChart>
+            <LineChart width={600} height={300} data={this.props.dat}
+              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+         <XAxis dataKey="years"/>
+         <YAxis/>
+         <CartesianGrid strokeDasharray="3 3"/>
+         <Tooltip/>
+         <Legend />
+         <Line type="monotone" dataKey="refCount" stroke="#8884d8" activeDot={{r: 8}}/>
+        </LineChart>
           </div>
         </Popup>
       </div>

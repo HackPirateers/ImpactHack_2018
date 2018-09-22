@@ -7,7 +7,6 @@ import ControlledPopup from "./Popup.js";
 import Recharts from "recharts";
 // import Warper from "./Warper";
 import Popup from "reactjs-popup";
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from "recharts";
 // const data = [
 //       {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
 //       {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
@@ -57,6 +56,7 @@ class App extends Component {
       country: country1
     }, function(){
       console.log(this.state.country);
+      // console.log(this.post);
       this.post();
     });
   }
@@ -72,6 +72,7 @@ class App extends Component {
      if (this.state.api_data[3] === "F"){
       x = "Free";
     }
+    // console.log(this.state.api_data);
     return this.state.country + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x;
   }
 
@@ -86,13 +87,14 @@ class App extends Component {
 
 
   async post(){
-    const test = await axios.put("http://e4bee7c3.ngrok.io/",{"list" : [this.state.country]}).then(async(response) =>{
+    const test = await axios.put("http://.ngrok.io/",{"list" : [this.state.country]}).then(async(response) =>{
+      // console.log(response["data"]["output"]);
       this.setState({api_data: response["data"]["output"]});
       this.setState({years: response["data"]["output"][0]});
       this.setState({refCount: response["data"]["output"][1]});
       this.setState({text_stub : this.makeText()});
 
-      
+      // console.log(this.state.text_stub);
       var graph1 = [];
       for (var x = 0; x <response["data"]["output"][0].length; x++) {
             graph1.push({  years: this.state.years[x],
@@ -145,11 +147,10 @@ class App extends Component {
           popData={this.state.popData}
           updateCountry = {this.updateCountry}
         />
-        <ControlledPopup data ={this.state.country}/>
+        <ControlledPopup
+          dat ={this.state.graph}/>
       </div>
-
     );
   }
 }
-
 render(<App />, document.getElementById("root"));
