@@ -87,7 +87,7 @@ class App extends Component {
 
 
   async post(){
-    const test = await axios.put("http://.ngrok.io/",{"list" : [this.state.country]}).then(async(response) =>{
+    const test = await axios.put("https://b337fc5a.ngrok.io/",{"list" : [this.state.country]}).then(async(response) =>{
       // console.log(response["data"]["output"]);
       this.setState({api_data: response["data"]["output"]});
       this.setState({years: response["data"]["output"][0]});
@@ -148,7 +148,9 @@ class App extends Component {
           updateCountry = {this.updateCountry}
         />
         <ControlledPopup
-          dat ={this.state.graph}/>
+          dat ={this.state.graph}
+          blurb = {this.state.text_stub}
+          country = {this.state.country}/>
       </div>
     );
   }

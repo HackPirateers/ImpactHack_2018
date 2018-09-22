@@ -36,6 +36,9 @@ class ControlledPopup extends React.Component {
           closeOnDocumentClick
           onClose={this.closeModal}
         >
+          <div>
+            {this.props.country}
+          </div>
           <div className="modal">
             <a className="close" onClick={this.closeModal}>
               &times;
@@ -49,6 +52,9 @@ class ControlledPopup extends React.Component {
          <Legend />
          <Line type="monotone" dataKey="refCount" stroke="#8884d8" activeDot={{r: 8}}/>
         </LineChart>
+          </div>
+          <div>
+            {this.props.blurb}
           </div>
         </Popup>
       </div>
