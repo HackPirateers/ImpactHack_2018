@@ -107,7 +107,7 @@ const Map = ({ center, csize, markers, popData }) => (
                     key={geo.id + i}
                     geography={geo}
                     projection={proj}
-                    onClick={() =>console.log(geo.id)}
+                    onClick={() =>console.log(geo.properties.brk_name)}
                     style={{
                       default: {
                         fill: popData ? "#CFD8DC" :
@@ -124,52 +124,8 @@ const Map = ({ center, csize, markers, popData }) => (
               }
             </Geographies>
 
-            <Markers>
-              {markers.map((marker, i) => (
-                <Marker
-                  key={i}
-                  marker={marker}
-                  style={{
-                    default: { fill: "#FF5722" },
-                    hover: { fill: "#FFFFFF" },
-                    pressed: { fill: "#FF5722" },
-                    hidden: { display: "none" }
-                  }}
-                >
-                  <Motion
-                    defaultStyle={{ scale: 0 }}
-                    style={{ scale: spring(csize) }}
-                  >
-                    {({ scale }) => (
-                      <circle cx={0} cy={0} r={scale} fill="#FF5722" />
-                    )}
-                  </Motion>
 
-                  <circle
-                  //   cx={1}
-                  //   cy={-0.5}
-                  //   r={2}
-                  //   style={{
-                  //     stroke: "#FF5722",
-                  //     strokeWidth: 3,
-                  //     opacity: 0.9
-                  //   }}
-                  />
-                  <text
-                    textAnchor="middle"
-                    x={10}
-                    y={marker.markerOffset}
-                    style={{
-                      fontFamily: "Roboto, sans-serif",
-                      fill: "#607D8B",
-                      fontSize: 12
-                    }}
-                  >
-                    {marker.name}
-                  </text>
-                </Marker>
-              ))}
-            </Markers>
+
           </ZoomableGlobe>
         </ComposableMap>
       )}
