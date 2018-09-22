@@ -13,6 +13,8 @@ class App extends Component {
       size: 5,
       turn: 1,
       popData: false,
+      api_data: [],
+      text_stub: "",
       markers: [
         {
           markerOffset: -25,
@@ -164,7 +166,25 @@ class App extends Component {
       console.log(this.state.country);
       // console.log(this.post);
       this.post();
+
     });
+  }
+
+  makeText = () => {
+    var x = "Unable to Determine";
+    if (this.state.api_data[3] === "NF"){
+      x = "Not Free";
+    }
+
+    if (this.state.api_data[3] === "PF"){
+      x = "Partly Free";
+    }
+
+    if (this.state.api_data[3] === "F"){
+      x = "Free";
+    }
+    console.log(this.state.api_data);
+    return this.state.country + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x;
   }
 
   changeData = () => {
@@ -177,11 +197,18 @@ class App extends Component {
   }
 
   async post(){
-    const test = await axios.put("http://5412f980.ngrok.io/",{"list" : [this.state.country]}).then((response) =>{
-      console.log(response["data"]);
+    const test = await axios.put("http://4a2cb2d6.ngrok.io/",{"list" : [this.state.country]}).then(async(response) =>{
+      console.log(response["data"]["output"]);
+      this.setState({api_data: response["data"]["output"]},function(){
+        console.log(this.state.api_data);
+
+      })
+      this.setState({text_stub : this.makeText()});
+      console.log(this.state.text_stub);
     }).catch(error => {
       alert(error);
     });
+
     return test;
   };
 
