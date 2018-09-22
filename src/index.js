@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import Map from "./Map";
-
+import axios from "axios";
 import "./styles.css";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      country: "",
       center: [0, 0],
       size: 5,
       turn: 1,
@@ -156,6 +157,16 @@ class App extends Component {
 
   };
 
+  updateCountry = (country1) =>{
+    this.setState({
+      country: country1
+    }, function(){
+      console.log(this.state.country);
+      // console.log(this.post);
+      this.post();
+    });
+  }
+
   changeData = () => {
     if (this.state.popData){
       this.setState({popData:false})
@@ -164,6 +175,15 @@ class App extends Component {
         this.setState({popData: true })
     }
   }
+
+  async post(){
+    const test = await axios.put("http://5412f980.ngrok.io/",{"list" : [this.state.country]}).then((response) =>{
+      console.log(response["data"]);
+    }).catch(error => {
+      alert(error);
+    });
+    return test;
+  };
 
   stopTurning = () => {
     this.setState({ turn: 0 });
@@ -225,6 +245,7 @@ class App extends Component {
           csize={this.state.size}
           markers={this.state.markers}
           popData={this.state.popData}
+          updateCountry = {this.updateCountry}
         />
       </div>
     );

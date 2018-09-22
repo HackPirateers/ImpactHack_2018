@@ -69,7 +69,7 @@ const subregions = [
   "Western Asia"
 ];
 
-const Map = ({ center, csize, markers, popData }) => (
+const Map = ({ center, csize, markers, popData, updateCountry }) => (
   <div>
     <Motion
       defaultStyle={{
@@ -107,7 +107,7 @@ const Map = ({ center, csize, markers, popData }) => (
                     key={geo.id + i}
                     geography={geo}
                     projection={proj}
-                    onClick={() =>console.log(geo.properties.brk_name)}
+                    onClick={() =>updateCountry(geo.properties.brk_name)}
                     style={{
                       default: {
                         fill: popData ? "#CFD8DC" :
