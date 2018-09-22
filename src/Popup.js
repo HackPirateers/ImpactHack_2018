@@ -36,6 +36,7 @@ class ControlledPopup extends React.Component {
             left: 20,
             bottom: 5
           }}>
+            //This is adjusting the axis on the graph.
           <XAxis stroke="#000000" dataKey="years"/>
           <YAxis stroke="#000000"/>
           <CartesianGrid stroke="#000000" strokeDasharray="3 3"/>
