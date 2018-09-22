@@ -123,6 +123,9 @@ class App extends Component {
           <button className="btn" onClick={this.changeTurning}>
             {"Toggle Spin"}
           </button>
+          <button className="btn" onClick={this.changeData}>
+  {"Toggle Data"}
+</button>
         </div>
         <Map
           center={this.state.center}
