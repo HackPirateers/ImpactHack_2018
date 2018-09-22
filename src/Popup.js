@@ -30,8 +30,12 @@ class ControlledPopup extends React.Component {
             </a>
             <LineChart width={600} height={350} data={this.props.dat}
               margin={{top: 5, right: 20, left: 20, bottom: 5}}>
-         <XAxis dataKey="years"/>
-         <YAxis/>
+         <XAxis dataKey="years">
+                    <Label value="Years" offset={0} position="insideBottom" />
+                </XAxis>
+                <YAxis>
+                    <Label value="Refugees" offset={0} position="insideLeft" angle={90}/>
+                </YAxis>
          <CartesianGrid strokeDasharray="3 3"/>
          <Tooltip/>
          <Legend />
