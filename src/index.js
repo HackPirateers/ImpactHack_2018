@@ -1,5 +1,8 @@
 
 
+// Imports. We use axios for interacting with the backend REST api, reactjs-popups for the country popup,
+//  and Recharts for the line graph.
+
 import React, { Component } from "react";
 import { render } from "react-dom";
 import Map from "./Map";
@@ -7,20 +10,15 @@ import axios from "axios";
 import "./styles.css";
 import ControlledPopup from "./Popup.js";
 import Recharts from "recharts";
-// import Warper from "./Warper";
 import Popup from "reactjs-popup";
-// const data = [
-//       {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-//       {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-//       {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-//       {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-//       {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-//       {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-//       {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-// ];
+
+
+
+// App brings all the components(Map, Popup, etc.) together to be rendered.
 class App extends Component {
   constructor() {
     super();
+    // These values are states that are used to track what teh user is doing at a given time.
     this.state = {
       countrylist: [],
       open: false,
@@ -37,14 +35,13 @@ class App extends Component {
       abr: "usa"
     };
   }
-  changeCenter = center => () => {
-    this.setState({ center });
-  };
+
+// set turn which is used to render rotation
   startTurning = () => {
     this.setState({ turn: 1 });
   };
 
-
+// uses state to see if user has toggled rotation and acts accordingly
   changeTurning = () => {
     if (this.state.turn === 1) {
       this.setState({ turn: 0 });
@@ -54,6 +51,9 @@ class App extends Component {
 
   };
 
+
+// the function used to handle a click on a country in the globe.
+// This function pushes data to state space and calls post function.
   updateCountry = (country1,country2,abrev) =>{
 
     this.setState({
@@ -67,6 +67,7 @@ class App extends Component {
     });
   }
 
+//This function creates the "blurb" of text in the popup that gives a general idea to the user.
   makeText = () => {
     var x = "Unable to Determine";
     if (this.state.api_data[3] === "NF"){
@@ -79,9 +80,10 @@ class App extends Component {
       x = "Free";
     }
     // console.log(this.state.api_data);
-    return this.state.countrylist[0] + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x + ".";
+    return this.state.countrylist[0] + " has freedom rating " + this.state.api_data[2] + " and is thus deemed as "  + x + "."+"\n As analyzed using the Grid cell population over 20 years (GeoEconomic Data), the slope very clearly corresponds with the number of refugees per country.";
   }
 
+// function that determines what dataset or color scheme the user would like(see map.js)
   changeData = () => {
     if (this.state.popData){
       this.setState({popData:false})
@@ -91,25 +93,30 @@ class App extends Component {
     }
   }
 
+// Popup function that determines if the popup opens.
   openModal = () => {
     this.setState({ open: true });
   };
 
+  // Popup function that determines if the popup closes.
   closeModal = () => {
   this.setState({ open: false });
   };
 
+// This is where some of the magic happens. Using axois, we connect and request to a backend REST API to
+// get the data realtime based on the country clicked. After getting the response,
+//which comprises of years vs refugee count with freedom index,freedom rating,
+//and individualized projected geogrpahical data, we preprocess all the responses for visualization
+// and set action-determining states accodingly.
   async post(){
-    const test = await axios.put("http://b7c0c87e.ngrok.io/",{"list" : [this.state.countrylist]}).then(async(response) =>{
-      // console.log(response["data"]["output"]);
-      //this.setState({abr: re})
+    const test = await axios.put("http://localhost:5000/",{"list" : [this.state.countrylist]}).then(async(response) =>{
+
       this.setState({api_data: response["data"]["output"]});
       this.setState({years: response["data"]["output"][0]});
       this.setState({refCount: response["data"]["output"][1]});
       //this.setState({showMap : true});
       this.setState({text_stub : this.makeText()});
 
-      // console.log(this.state.text_stub);
       var graph1 = [];
       for (var x = 0; x <response["data"]["output"][0].length; x++) {
             graph1.push({  years: this.state.years[x],
@@ -125,10 +132,12 @@ alert(error);
     return test;
   };
 
+//sets state that determines the stopping of globe rotation.
   stopTurning = () => {
     this.setState({ turn: 0 });
-    // this.changeCenter([0, 0]);
   };
+
+// Refreshes render every 1ms and changes center to simulate 3d rotation.
   componentDidMount() {
     this.interval = setInterval(
       () =>
@@ -141,10 +150,15 @@ alert(error);
     1
     );
   }
+
+//Clears the interval to avoid state cache problems.
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-  // the coordinate system is E, N, not the conventional N,E. - denotates south or west.
+
+// SIDE NOTE: the coordinate system of this globe is E, N, not the conventional N,E. - denotates south or west.
+
+//This render simply renders all the process and refined visualizations
   render() {
     return (
       <div style={{ textAlign: "center" }}>
@@ -180,4 +194,5 @@ alert(error);
     );
   }
 }
+
 render(<App />, document.getElementById("root"));
