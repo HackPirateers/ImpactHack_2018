@@ -6,11 +6,9 @@ class ControlledPopup extends React.Component {
   constructor() {
     super();
   }
-
   render() {
     return (
       <div>
-
           <div>
             {this.props.country + " "}
             <img src={require('./png/' + this.props.abrev+ '.png')} width="20" height="10" />
