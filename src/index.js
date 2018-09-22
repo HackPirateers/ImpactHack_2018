@@ -32,7 +32,7 @@ class App extends Component {
       popData: false,
       api_data: [],
       text_stub: "",
-      abr: ""
+      abr: "usa"
     };
   }
   changeCenter = center => () => {
@@ -52,11 +52,13 @@ class App extends Component {
 
   };
 
-  updateCountry = (country1,country2) =>{
+  updateCountry = (country1,country2,abrev) =>{
+
     this.setState({
-      countrylist: [country1, country2]
+      countrylist: [country1, country2],
+      abr:abrev.toString().toLowerCase(),
     }, function(){
-      console.log(this.state.countrylist);
+      console.log(this.state.abr);
       // console.log(this.post);
       this.post();
 
@@ -159,19 +161,18 @@ alert(error);
           popData={this.state.popData}
           updateCountry = {this.updateCountry}
         />
-
-        <Popup
-          open={this.state.open}
-          closeOnDocumentClick
-          onClose={this.closeModal}
-        >
-          <ControlledPopup
-            dat ={this.state.graph}
-            blurb = {this.state.text_stub}
-            country = {this.state.countrylist[0]}/>
-        </Popup>
-
-
+          <Popup
+            open={this.state.open}
+            closeOnDocumentClick
+            onClose={this.closeModal}
+            contentStyle = {{background: "#D3D3D3"}}
+          >
+            <ControlledPopup
+              dat ={this.state.graph}
+              blurb = {this.state.text_stub}
+              country = {this.state.countrylist[0]}
+              abrev = {this.state.abr}/>
+          </Popup>
 
       </div>
     );

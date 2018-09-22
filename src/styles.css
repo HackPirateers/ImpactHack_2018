@@ -16,6 +16,10 @@ body {
   cursor: pointer;
 }
 
+.pop{
+  background-color: grey;
+}
+
 .btn:hover,
 .btn:focus {
   background: #e64a19;

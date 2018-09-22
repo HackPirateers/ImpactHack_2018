@@ -108,7 +108,7 @@ const Map = ({ center, csize, markers, popData, updateCountry }) => (
                     key={geo.id + i}
                     geography={geo}
                     projection={proj}
-                    onClick={() =>updateCountry(geo.properties.sovereignt,geo.properties.brk_name)}
+                    onClick={() =>updateCountry(geo.properties.sovereignt,geo.properties.brk_name,geo.properties.adm0_a3)}
                     style={{
                       default: {
                         fill: popData ? "#CFD8DC" :
