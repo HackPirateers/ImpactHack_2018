@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 import pandas as pd
+import ast
 
 app = Flask(__name__)
 CORS(app) # <-- CORS is necessary for React.js's Axion to be able to use the methods in the api!
@@ -23,7 +24,9 @@ class Test(Resource):
         parser.add_argument('list', action='append')
 
         args = parser.parse_args()
-        print(args.list[0])
+        print(args.list)
+        args.list = ast.literal_eval(args.list[0])
+        print(args.list)
         df = pd.read_csv("aslyum_by_country_origin2.csv")
         # fi = pd.read_csv()
         fi = pd.read_csv("Subcategory_Scores_FIW2017.csv")
@@ -37,9 +40,19 @@ class Test(Resource):
 
 
         df = df.T.fillna(df.mean(axis=1)).T
-        x = df.loc[df["name"]==args.list[0]]
+        if df['name'].str.contains(args.list[0]).any():
+            x = df.loc[df["name"]==args.list[0]]
+            print("name")
+        elif df['country_or'].str.contains(args.list[0]).any():
+            x = df.loc[df["country_or"]==args.list[0]]
+            print("or")
+        #x = df.loc[df["name"]==args.list[0]]
+        # x = x.iloc[0]
+        print(x)
         values = x.values.tolist()
-        values = values[0][4:]
+        print("VALUES--->",values)
+        values = values[0][3:]
+        print("VALUES 2.0 --->",values)
 
         # X,y, year_subtract = preprocess(df, ccode1, ccode2)
         # years, totals = regression(X, y,year_su
