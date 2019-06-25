@@ -109,7 +109,7 @@ class App extends Component {
 //and individualized projected geogrpahical data, we preprocess all the responses for visualization
 // and set action-determining states accodingly.
   async post(){
-    const test = await axios.put("http://localhost:5000/",{"list" : [this.state.countrylist]}).then(async(response) =>{
+    const test = await axios.put("http://127.0.0.1:5000/",{"list" : [this.state.countrylist]}).then(async(response) =>{
 
       this.setState({api_data: response["data"]["output"]});
       this.setState({years: response["data"]["output"][0]});
