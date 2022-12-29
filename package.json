@@ -18,7 +18,7 @@
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-motion": "0.5.2",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "react-simple-maps": "0.11.1",
     "reactjs-popup": "^1.2.0",
     "recharts": "^1.2.0",
